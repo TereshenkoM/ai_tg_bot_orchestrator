@@ -49,7 +49,7 @@ class OrchestratorRuntime:
                 answer = await service.generate(text=event.text, user_id=event.user_id)
             except Exception as e:
                 logger.error(
-                f"Ошибка при генерации модели. модель - {event.model}",
+                    f"Ошибка при генерации модели. модель - {event.model}",
                     exc_info=e,
                 )
                 answer = "Не удалось получить ответ от модели. Попробуйте позже."
