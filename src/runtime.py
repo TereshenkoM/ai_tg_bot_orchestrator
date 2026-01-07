@@ -66,3 +66,6 @@ class OrchestratorRuntime:
             await self._producer.send(
                 config.TOPIC_MODEL_RESPONSES, out.to_dict(), key=key
             )
+            await self._producer.send(
+                config.TOPIC_MANAGEMENT_MESSAGES, out.to_dict(), key=key
+            )

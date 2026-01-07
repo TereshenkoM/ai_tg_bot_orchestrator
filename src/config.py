@@ -9,6 +9,7 @@ class Config(BaseSettings):
 
     TOPIC_USER_MESSAGES: str
     TOPIC_MODEL_RESPONSES: str
+    TOPIC_MANAGEMENT_MESSAGES: str
 
     GEMINI_API_KEY: str
     GEMINI_MODEL: str
