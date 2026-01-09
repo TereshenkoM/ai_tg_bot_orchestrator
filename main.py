@@ -4,7 +4,7 @@ from logger import setup_logging, get_logger
 
 from src.runtime import OrchestratorRuntime
 
-setup_logging(service_name="users-service")
+setup_logging(service_name="orchestrator")
 
 log = get_logger(__name__)
 
