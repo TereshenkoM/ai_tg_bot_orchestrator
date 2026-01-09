@@ -1,14 +1,22 @@
+# syntax=docker/dockerfile:1.7
+
 FROM python:3.14-rc-slim AS builder
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     UV_NO_PROGRESS=1 \
+    UV_CACHE_DIR=/tmp/uv-cache \
     UV_PROJECT_ENVIRONMENT=/opt/venv
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends ca-certificates curl \
+ && apt-get install -y --no-install-recommends \
+      ca-certificates curl \
+      git openssh-client \
  && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /root/.ssh \
+ && ssh-keyscan github.com >> /etc/ssh/ssh_known_hosts
 
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh \
  && if [ -x /root/.local/bin/uv ]; then cp /root/.local/bin/uv /usr/local/bin/uv; \
@@ -22,8 +30,9 @@ COPY pyproject.toml uv.lock /app/
 
 RUN uv venv /opt/venv \
  && /opt/venv/bin/python -m ensurepip --upgrade \
- && /opt/venv/bin/python -m pip install --no-cache-dir --upgrade pip setuptools wheel \
- && uv sync --frozen --no-dev
+ && /opt/venv/bin/python -m pip install --no-cache-dir --upgrade pip setuptools wheel
+
+RUN --mount=type=ssh uv sync --frozen --no-dev
 
 COPY . /app
 

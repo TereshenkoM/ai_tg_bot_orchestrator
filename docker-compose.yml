@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      ssh:
+        - default
     env_file:
       - .env
     networks:
