@@ -47,7 +47,7 @@ class OrchestratorRuntime:
             try:
                 service = self._registry.get(event.model)
                 answer = await service.generate(text=event.text, user_id=event.user_id)
-                logger.info(f'11111111 {answer}')
+
             except Exception as e:
                 logger.error(
                     f"Ошибка при генерации модели. модель - {event.model}",
